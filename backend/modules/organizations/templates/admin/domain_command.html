@@ -1,0 +1,10 @@
+{% extends "admin/base_site.html" %}
+{% block extrahead %}{{ block.super }}{{ form.media }}{% endblock %}
+{% block content %}
+<p>Changes use the same permission checks and historical records as the application.</p>
+{% if original %}<p>{{ original }}</p>{% endif %}
+<form method="post" novalidate>{% csrf_token %}
+{{ form.as_p }}
+<div class="submit-row"><input type="submit" value="Save" class="default"></div>
+</form>
+{% endblock %}

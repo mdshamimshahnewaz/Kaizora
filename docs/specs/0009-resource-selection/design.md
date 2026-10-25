@@ -1,0 +1,7 @@
+# Design
+
+Resources owns stable worker identities. A trusted public assignment resolver, called under the shared organization lock after owning-command authorization, resolves exactly one member/resource input. It reuses live linked identities; an ended previous link requires explicit relinking rather than silently creating a duplicate. New identities receive an automatic immutable UUID-based code and member display name. Team assignment permits this derived creation with teams.manage; UI picker requires resources.read. Explicit member-to-resource creation additionally requires resources.manage, resources.link_identity and memberships.read.
+
+Projects owns ProjectWorker (resource UUID, start/end timestamps, version, name snapshot) with one live row per project/resource. projects.manage authorizes writes; projects.read authorizes roster reading; private project checks precede resource lookup. No permission catalog expansion or automatic project grants. Public resources interface returns scoped minimal choices; project manager choices do not expose contacts or global users. Existing resource identity remains the worker reference after member removal.
+
+Search UI uses one shared asynchronous searchable dropdown with bounded server pagination. Admin forms include searchable selects and exactly-one input validation; commands revalidate tenant, active state and permissions. Existing IDs/models/history are not rewritten. Additive project migration only.

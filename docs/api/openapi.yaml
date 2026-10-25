@@ -1,0 +1,4778 @@
+openapi: 3.0.3
+info:
+  title: Kaizora API
+  version: 1.0.0
+  description: Shared API for web and future mobile clients.
+paths:
+  /api/v1/account/me/:
+    get:
+      operationId: v1_account_me_retrieve
+      parameters:
+      - in: query
+        name: organization
+        schema:
+          type: string
+          format: uuid
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    patch:
+      operationId: v1_account_me_partial_update
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateAccount'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/auth/login/:
+    post:
+      operationId: v1_auth_login_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthError'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthError'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthError'
+          description: ''
+  /api/v1/auth/logout/:
+    post:
+      operationId: v1_auth_logout_create
+      tags:
+      - v1
+      responses:
+        '204':
+          description: No response body
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthError'
+          description: ''
+  /api/v1/auth/session/:
+    get:
+      operationId: v1_auth_session_retrieve
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+          description: ''
+  /api/v1/health/live/:
+    get:
+      operationId: v1_health_live_retrieve
+      tags:
+      - v1
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+          description: ''
+  /api/v1/health/ready/:
+    get:
+      operationId: v1_health_ready_retrieve
+      tags:
+      - v1
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+          description: ''
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+          description: ''
+  /api/v1/organizations/:
+    get:
+      operationId: organizations_list
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrganization'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateOrganization'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateOrganization'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/:
+    get:
+      operationId: v1_organizations_retrieve
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/clients/:
+    get:
+      operationId: clients_list
+      parameters:
+      - in: query
+        name: ordering
+        schema:
+          type: string
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_clients_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateClient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateClient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateClient'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/clients/{client}/:
+    get:
+      operationId: v1_organizations_clients_retrieve
+      parameters:
+      - in: path
+        name: client
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    patch:
+      operationId: v1_organizations_clients_partial_update
+      parameters:
+      - in: path
+        name: client
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateClient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateClient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateClient'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/clients/{client}/contacts/:
+    get:
+      operationId: clients_contacts_list
+      parameters:
+      - in: path
+        name: client
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: query
+        name: status
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_clients_contacts_create
+      parameters:
+      - in: path
+        name: client
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateContact'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateContact'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateContact'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/clients/{client}/contacts/{contact}/:
+    get:
+      operationId: v1_organizations_clients_contacts_retrieve
+      parameters:
+      - in: path
+        name: client
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: contact
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    patch:
+      operationId: v1_organizations_clients_contacts_partial_update
+      parameters:
+      - in: path
+        name: client
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: contact
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateContact'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateContact'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateContact'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/memberships/:
+    get:
+      operationId: v1_organizations_memberships_retrieve
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: query
+        name: status
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MembershipPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_memberships_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMembership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AddMembership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddMembership'
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/memberships/{member}/:
+    patch:
+      operationId: v1_organizations_memberships_partial_update
+      parameters:
+      - in: path
+        name: member
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedChangeMembership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedChangeMembership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedChangeMembership'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/permissions/catalog/:
+    get:
+      operationId: v1_organizations_permissions_catalog_retrieve
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Catalog'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/permissions/me/:
+    get:
+      operationId: v1_organizations_permissions_me_retrieve
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Permissions'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/projects/:
+    get:
+      operationId: projects_list
+      parameters:
+      - in: query
+        name: client_id
+        schema:
+          type: string
+      - in: query
+        name: ordering
+        schema:
+          type: string
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_projects_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProject'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateProject'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateProject'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/projects/{project}/:
+    get:
+      operationId: v1_organizations_projects_retrieve
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: project
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    patch:
+      operationId: v1_organizations_projects_partial_update
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: project
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateProject'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateProject'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateProject'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/projects/{project}/access/:
+    get:
+      operationId: projects_access_list
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: path
+        name: project
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectAccessPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_projects_access_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: project
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GrantProjectAccess'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GrantProjectAccess'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GrantProjectAccess'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectAccess'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/projects/{project}/access/{grant}/end/:
+    post:
+      operationId: v1_organizations_projects_access_end_create
+      parameters:
+      - in: path
+        name: grant
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: project
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndProjectAccess'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EndProjectAccess'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EndProjectAccess'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectAccess'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/projects/{project}/options/:
+    get:
+      operationId: projects_access_options_list
+      parameters:
+      - in: query
+        name: kind
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: path
+        name: project
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: search
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectOptionPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/projects/{project}/transition/:
+    post:
+      operationId: v1_organizations_projects_transition_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: project
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransitionProject'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransitionProject'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransitionProject'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/projects/{project}/workforce/:
+    get:
+      operationId: v1_organizations_projects_workforce_retrieve
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: path
+        name: project
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectWorkerPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_projects_workforce_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: project
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddProjectWorker'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AddProjectWorker'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddProjectWorker'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectWorker'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/projects/{project}/workforce/{worker}/end/:
+    post:
+      operationId: v1_organizations_projects_workforce_end_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: project
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: worker
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndProjectWorker'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EndProjectWorker'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EndProjectWorker'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectWorker'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/projects/{project}/workforce/options/:
+    get:
+      operationId: v1_organizations_projects_workforce_options_retrieve
+      parameters:
+      - in: query
+        name: kind
+        schema:
+          type: string
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: path
+        name: project
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: search
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectOptionPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/projects/options/:
+    get:
+      operationId: projects_options_list
+      parameters:
+      - in: query
+        name: kind
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: query
+        name: search
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectOptionPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/resources/:
+    get:
+      operationId: resources_list
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourcePage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_resources_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResourceCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResourceCreate'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/resources/{resource}/:
+    get:
+      operationId: v1_organizations_resources_retrieve
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: resource
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    patch:
+      operationId: v1_organizations_resources_partial_update
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: resource
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedResourceUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedResourceUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedResourceUpdate'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/resources/{resource}/identity-links/:
+    get:
+      operationId: resource_identity_links_list
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: path
+        name: resource
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityLinkPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_resources_identity_links_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: resource
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityLinkCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/IdentityLinkCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/IdentityLinkCreate'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityLink'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/resources/{resource}/identity-links/{link}/end/:
+    post:
+      operationId: v1_organizations_resources_identity_links_end_create
+      parameters:
+      - in: path
+        name: link
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: resource
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkEnd'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LinkEnd'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LinkEnd'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityLink'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/resources/choices/:
+    get:
+      operationId: v1_organizations_resources_choices_retrieve
+      parameters:
+      - in: query
+        name: kind
+        schema:
+          type: string
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: query
+        name: search
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkerChoicePage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/resources/from-member/:
+    post:
+      operationId: v1_organizations_resources_from_member_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberResourceCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MemberResourceCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MemberResourceCreate'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/role-assignments/:
+    get:
+      operationId: v1_organizations_role_assignments_retrieve
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignmentPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_role_assignments_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignRole'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssignRole'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssignRole'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assignment'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/role-assignments/{assignment}/revoke/:
+    post:
+      operationId: v1_organizations_role_assignments_revoke_create
+      parameters:
+      - in: path
+        name: assignment
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Revoke'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Revoke'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Revoke'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assignment'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/roles/:
+    get:
+      operationId: v1_organizations_roles_retrieve
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolePage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_roles_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRole'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateRole'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateRole'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/roles/{role}/:
+    patch:
+      operationId: v1_organizations_roles_partial_update
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: role
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateRole'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateRole'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateRole'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/teams/:
+    get:
+      operationId: teams_list
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_teams_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TeamCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TeamCreate'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/teams/{team}/:
+    get:
+      operationId: v1_organizations_teams_retrieve
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: team
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    patch:
+      operationId: v1_organizations_teams_partial_update
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: team
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTeamUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTeamUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTeamUpdate'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/teams/{team}/memberships/:
+    get:
+      operationId: team_memberships_list
+      parameters:
+      - in: query
+        name: as_of
+        schema:
+          type: string
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+      - in: path
+        name: team
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMembershipPage'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+    post:
+      operationId: v1_organizations_teams_memberships_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: team
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamMembershipCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TeamMembershipCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TeamMembershipCreate'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMembership'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/teams/{team}/memberships/{membership}/:
+    patch:
+      operationId: v1_organizations_teams_memberships_partial_update
+      parameters:
+      - in: path
+        name: membership
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: team
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTeamMembershipEnd'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTeamMembershipEnd'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTeamMembershipEnd'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMembership'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/{org}/transfer-owner/:
+    post:
+      operationId: v1_organizations_transfer_owner_create
+      parameters:
+      - in: path
+        name: org
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferOwner'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransferOwner'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransferOwner'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+  /api/v1/organizations/provisioning/:
+    get:
+      operationId: v1_organizations_provisioning_retrieve
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Provisioning'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ''
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
+        display_name:
+          type: string
+        preferences:
+          $ref: '#/components/schemas/Preferences'
+        version:
+          type: integer
+        effective_timezone:
+          type: string
+      required:
+      - display_name
+      - effective_timezone
+      - email
+      - first_name
+      - id
+      - last_name
+      - preferences
+      - username
+      - version
+    AddMembership:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        username:
+          type: string
+          maxLength: 150
+    AddProjectWorker:
+      type: object
+      properties:
+        resource_id:
+          type: string
+          format: uuid
+        membership_id:
+          type: string
+          format: uuid
+        reason:
+          type: string
+          maxLength: 500
+      required:
+      - reason
+    AssignRole:
+      type: object
+      properties:
+        membership_id:
+          type: string
+          format: uuid
+        role_id:
+          type: string
+          format: uuid
+        reason:
+          type: string
+          maxLength: 500
+      required:
+      - membership_id
+      - reason
+      - role_id
+    Assignment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        membership_id:
+          type: string
+          format: uuid
+        role_id:
+          type: string
+          format: uuid
+        role_name:
+          type: string
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        version:
+          type: integer
+      required:
+      - ended_at
+      - id
+      - membership_id
+      - role_id
+      - role_name
+      - started_at
+      - version
+    AssignmentPage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Assignment'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    AuthError:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    Catalog:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogEntry'
+        presets:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateRole'
+      required:
+      - entries
+      - presets
+    CatalogEntry:
+      type: object
+      properties:
+        key:
+          type: string
+        scope:
+          type: string
+      required:
+      - key
+      - scope
+    Client:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/RoleStatusEnum'
+        version:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+      required:
+      - code
+      - created_at
+      - id
+      - name
+      - status
+      - version
+    ClientPage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Client'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    Contact:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        client_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        position:
+          type: string
+        status:
+          $ref: '#/components/schemas/RetirementStatusEnum'
+        version:
+          type: integer
+      required:
+      - client_id
+      - email
+      - id
+      - name
+      - phone
+      - position
+      - status
+      - version
+    ContactPage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    CreateClient:
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 32
+        name:
+          type: string
+          maxLength: 200
+      required:
+      - code
+      - name
+    CreateContact:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 200
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        phone:
+          type: string
+          maxLength: 50
+        position:
+          type: string
+          maxLength: 200
+      required:
+      - name
+    CreateOrganization:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 200
+        timezone:
+          type: string
+          maxLength: 64
+        owner_user_id:
+          type: string
+          format: uuid
+        owner_username:
+          type: string
+          maxLength: 150
+      required:
+      - name
+      - timezone
+    CreateProject:
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 32
+        name:
+          type: string
+          maxLength: 200
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        client_id:
+          type: string
+          format: uuid
+          nullable: true
+        description:
+          type: string
+          maxLength: 4000
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        target_end_date:
+          type: string
+          format: date
+          nullable: true
+        initial_manager_membership_id:
+          type: string
+          format: uuid
+        initial_manager_role_id:
+          type: string
+          format: uuid
+      required:
+      - code
+      - initial_manager_membership_id
+      - initial_manager_role_id
+      - name
+      - type
+    CreateRole:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 200
+        scope_kind:
+          allOf:
+          - $ref: '#/components/schemas/RoleScopeEnum'
+          default: organization
+        permissions:
+          type: array
+          items:
+            type: string
+            maxLength: 80
+          maxItems: 100
+      required:
+      - name
+      - permissions
+    EndProjectAccess:
+      type: object
+      properties:
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+      required:
+      - reason
+      - version
+    EndProjectWorker:
+      type: object
+      properties:
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+      required:
+      - reason
+      - version
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    GrantProjectAccess:
+      type: object
+      properties:
+        membership_id:
+          type: string
+          format: uuid
+        role_id:
+          type: string
+          format: uuid
+        reason:
+          type: string
+          maxLength: 500
+      required:
+      - membership_id
+      - reason
+      - role_id
+    Health:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/HealthStatusEnum'
+        service:
+          type: string
+        api_version:
+          type: string
+      required:
+      - api_version
+      - service
+      - status
+    HealthStatusEnum:
+      enum:
+      - ok
+      - unavailable
+      type: string
+      description: |-
+        * `ok` - ok
+        * `unavailable` - unavailable
+    IdentityLink:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        resource_id:
+          type: string
+          format: uuid
+        membership_id:
+          type: string
+          format: uuid
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        reason:
+          type: string
+        resource_version:
+          type: integer
+      required:
+      - ended_at
+      - id
+      - membership_id
+      - reason
+      - resource_id
+      - resource_version
+      - started_at
+    IdentityLinkCreate:
+      type: object
+      properties:
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+        membership_id:
+          type: string
+          format: uuid
+      required:
+      - membership_id
+      - reason
+      - version
+    IdentityLinkPage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdentityLink'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    LinkEnd:
+      type: object
+      properties:
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+      required:
+      - reason
+      - version
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 4096
+      required:
+      - password
+      - username
+    MemberResourceCreate:
+      type: object
+      properties:
+        membership_id:
+          type: string
+          format: uuid
+      required:
+      - membership_id
+    Membership:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/MembershipStatusEnum'
+        is_owner:
+          type: boolean
+        version:
+          type: integer
+        joined_at:
+          type: string
+          format: date-time
+        username:
+          type: string
+        display_name:
+          type: string
+      required:
+      - display_name
+      - id
+      - is_owner
+      - joined_at
+      - status
+      - user_id
+      - username
+      - version
+    MembershipPage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Membership'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    MembershipStatusEnum:
+      enum:
+      - active
+      - suspended
+      - ended
+      type: string
+      description: |-
+        * `active` - active
+        * `suspended` - suspended
+        * `ended` - ended
+    NullEnum:
+      enum:
+      - null
+    Organization:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        timezone:
+          type: string
+        status:
+          type: string
+        version:
+          type: integer
+        membership_id:
+          type: string
+          format: uuid
+          nullable: true
+        is_owner:
+          type: boolean
+      required:
+      - id
+      - is_owner
+      - membership_id
+      - name
+      - status
+      - timezone
+      - version
+    OrganizationPage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    PatchedChangeMembership:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/MembershipStatusEnum'
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+    PatchedResourceUpdate:
+      type: object
+      properties:
+        display_name:
+          type: string
+          maxLength: 200
+        status:
+          $ref: '#/components/schemas/RetirementStatusEnum'
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+    PatchedTeamMembershipEnd:
+      type: object
+      properties:
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+        end_date:
+          type: string
+          format: date
+    PatchedTeamUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 200
+        status:
+          $ref: '#/components/schemas/RoleStatusEnum'
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+    PatchedUpdateAccount:
+      type: object
+      properties:
+        version:
+          type: integer
+          minimum: 1
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        preferences:
+          $ref: '#/components/schemas/Preferences'
+    PatchedUpdateClient:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 200
+        status:
+          $ref: '#/components/schemas/RoleStatusEnum'
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+    PatchedUpdateContact:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 200
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        phone:
+          type: string
+          maxLength: 50
+        position:
+          type: string
+          maxLength: 200
+        status:
+          $ref: '#/components/schemas/RetirementStatusEnum'
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+    PatchedUpdateProject:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 4000
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        target_end_date:
+          type: string
+          format: date
+          nullable: true
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+    PatchedUpdateRole:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 200
+        permissions:
+          type: array
+          items:
+            type: string
+            maxLength: 80
+          maxItems: 100
+        status:
+          $ref: '#/components/schemas/RoleStatusEnum'
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+    Permissions:
+      type: object
+      properties:
+        organization_id:
+          type: string
+          format: uuid
+        membership_id:
+          type: string
+          format: uuid
+        is_owner:
+          type: boolean
+        permissions:
+          type: array
+          items:
+            type: string
+      required:
+      - is_owner
+      - membership_id
+      - organization_id
+      - permissions
+    Preferences:
+      type: object
+      properties:
+        theme:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/ThemeEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        timezone:
+          type: string
+          nullable: true
+          maxLength: 100
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        status:
+          $ref: '#/components/schemas/ProjectStatusEnum'
+        client_id:
+          type: string
+          format: uuid
+          nullable: true
+        client_name:
+          type: string
+        description:
+          type: string
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        target_end_date:
+          type: string
+          format: date
+          nullable: true
+        version:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        capabilities:
+          type: array
+          items:
+            type: string
+      required:
+      - capabilities
+      - client_id
+      - client_name
+      - code
+      - created_at
+      - description
+      - id
+      - name
+      - start_date
+      - status
+      - target_end_date
+      - type
+      - version
+    ProjectAccess:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        membership_id:
+          type: string
+          format: uuid
+        member_name:
+          type: string
+        role_id:
+          type: string
+          format: uuid
+        role_name:
+          type: string
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        version:
+          type: integer
+      required:
+      - ended_at
+      - id
+      - member_name
+      - membership_id
+      - role_id
+      - role_name
+      - started_at
+      - version
+    ProjectAccessPage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectAccess'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    ProjectOption:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        label:
+          type: string
+      required:
+      - id
+      - label
+    ProjectOptionPage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectOption'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    ProjectPage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    ProjectStatusEnum:
+      enum:
+      - draft
+      - active
+      - completed
+      - archived
+      type: string
+      description: |-
+        * `draft` - draft
+        * `active` - active
+        * `completed` - completed
+        * `archived` - archived
+    ProjectWorker:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        resource_id:
+          type: string
+          format: uuid
+        resource_name:
+          type: string
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        version:
+          type: integer
+      required:
+      - ended_at
+      - id
+      - resource_id
+      - resource_name
+      - started_at
+      - version
+    ProjectWorkerPage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectWorker'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    Provisioning:
+      type: object
+      properties:
+        can_create:
+          type: boolean
+      required:
+      - can_create
+    Resource:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        display_name:
+          type: string
+        status:
+          $ref: '#/components/schemas/RetirementStatusEnum'
+        version:
+          type: integer
+        linked_membership_id:
+          type: string
+          format: uuid
+          nullable: true
+      required:
+      - code
+      - display_name
+      - id
+      - linked_membership_id
+      - status
+      - version
+    ResourceCreate:
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 32
+        display_name:
+          type: string
+          maxLength: 200
+      required:
+      - display_name
+    ResourcePage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    RetirementStatusEnum:
+      enum:
+      - active
+      - retired
+      type: string
+      description: |-
+        * `active` - active
+        * `retired` - retired
+    Revoke:
+      type: object
+      properties:
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+      required:
+      - reason
+      - version
+    Role:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scope_kind:
+          $ref: '#/components/schemas/RoleScopeEnum'
+        status:
+          $ref: '#/components/schemas/RoleStatusEnum'
+        version:
+          type: integer
+        permissions:
+          type: array
+          items:
+            type: string
+      required:
+      - id
+      - name
+      - permissions
+      - scope_kind
+      - status
+      - version
+    RolePage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    RoleScopeEnum:
+      enum:
+      - organization
+      - project
+      type: string
+      description: |-
+        * `organization` - organization
+        * `project` - project
+    RoleStatusEnum:
+      enum:
+      - active
+      - archived
+      type: string
+      description: |-
+        * `active` - active
+        * `archived` - archived
+    Session:
+      type: object
+      properties:
+        user:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          nullable: true
+        csrf_token:
+          type: string
+      required:
+      - csrf_token
+      - user
+    Team:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/RoleStatusEnum'
+        version:
+          type: integer
+      required:
+      - code
+      - id
+      - name
+      - status
+      - version
+    TeamCreate:
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 32
+        name:
+          type: string
+          maxLength: 200
+      required:
+      - code
+      - name
+    TeamMembership:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        team_id:
+          type: string
+          format: uuid
+        resource_id:
+          type: string
+          format: uuid
+        resource_name:
+          type: string
+        resource_status:
+          type: string
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        version:
+          type: integer
+      required:
+      - end_date
+      - id
+      - resource_id
+      - resource_name
+      - resource_status
+      - start_date
+      - team_id
+      - version
+    TeamMembershipCreate:
+      type: object
+      properties:
+        resource_id:
+          type: string
+          format: uuid
+        membership_id:
+          type: string
+          format: uuid
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - start_date
+    TeamMembershipPage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamMembership'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    TeamPage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Team'
+      required:
+      - count
+      - next
+      - previous
+      - results
+    ThemeEnum:
+      enum:
+      - light
+      - dark
+      - system
+      type: string
+      description: |-
+        * `light` - light
+        * `dark` - dark
+        * `system` - system
+    TransferOwner:
+      type: object
+      properties:
+        target_membership_id:
+          type: string
+          format: uuid
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+      required:
+      - reason
+      - target_membership_id
+      - version
+    TransitionProject:
+      type: object
+      properties:
+        target_status:
+          $ref: '#/components/schemas/ProjectStatusEnum'
+        version:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+      required:
+      - reason
+      - target_status
+      - version
+    TypeEnum:
+      enum:
+      - delivery
+      - operations
+      type: string
+      description: |-
+        * `delivery` - delivery
+        * `operations` - operations
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        display_name:
+          type: string
+        email:
+          type: string
+          format: email
+      required:
+      - display_name
+      - email
+      - id
+      - username
+    WorkerChoice:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        label:
+          type: string
+      required:
+      - id
+      - label
+    WorkerChoicePage:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkerChoice'
+      required:
+      - count
+      - next
+      - previous
+      - results
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

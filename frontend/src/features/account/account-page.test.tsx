@@ -1,0 +1,27 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { vi, it, expect } from "vitest";
+import { AccountPage } from "./account-page";
+import { AccountError } from "./api";
+const mock = vi.hoisted(() => ({ save: vi.fn(), reload: vi.fn() }));
+const account = { id: "user", username: "user", email: "", first_name: "Original", last_name: "", display_name: "Original", version: 1, preferences: { theme: "light", timezone: null }, effective_timezone: "Asia/Dhaka" };
+vi.mock("./account-provider", () => ({ useAccount: () => ({ account, error: "", ...mock }) }));
+vi.mock("@/components/theme/theme-provider", () => ({ useTheme: () => ({ theme: "light" }) }));
+it("preserves edits on conflict and requires reviewing latest revision before retry", async () => {
+  const user = userEvent.setup();
+  mock.save.mockRejectedValueOnce(new AccountError(409, "Changed elsewhere"));
+  mock.reload.mockResolvedValue({ ...account, version: 2, first_name: "Other", display_name: "Other" });
+  mock.save.mockResolvedValue({ ...account, version: 3 });
+  render(<AccountPage />);
+  await user.clear(screen.getByLabelText("First name"));
+  await user.type(screen.getByLabelText("First name"), "My edit");
+  await user.click(screen.getByRole("button", { name: "Save changes" }));
+  expect(await screen.findByRole("alert")).toHaveTextContent("Changed elsewhere");
+  expect(screen.getByLabelText("First name")).toHaveValue("My edit");
+  expect(screen.getByRole("button", { name: "Save changes" })).toBeDisabled();
+  await user.click(screen.getByRole("button", { name: "Review latest saved values" }));
+  expect(await screen.findByText(/Latest saved: Other/)).toBeInTheDocument();
+  await user.click(screen.getByRole("button", { name: "Save changes" }));
+  expect(mock.save).toHaveBeenLastCalledWith(expect.objectContaining({ version: 2, first_name: "My edit" }));
+  expect(await screen.findByText("Account saved.")).toBeInTheDocument();
+});

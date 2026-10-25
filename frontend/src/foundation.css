@@ -1,0 +1,122 @@
+@scope (.foundation-screen) {
+  :scope {
+    min-height: 100vh;
+    font-family: system-ui, sans-serif;
+    color: #17362f;
+    background: #f5f5ef;
+    font-synthesis: none;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 32px 48px;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 28px;
+    font-weight: 700;
+    text-decoration: none;
+    color: inherit;
+  }
+  .brand:first-letter {
+    color: #39755f;
+  }
+  .badge {
+    font-size: 12px;
+    border: 1px solid #c5d4cb;
+    border-radius: 20px;
+    padding: 8px 12px;
+  }
+  .intro {
+    padding: 80px 0 40px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    color: #5a7468;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin: 20px 0;
+  }
+  .lead {
+    max-width: 550px;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #52685d;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+  article {
+    background: #fff;
+    border: 1px solid #dce3da;
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .number {
+    font-size: 13px;
+    color: #6d8377;
+  }
+  h2 {
+    font-weight: 700;
+    font-size: 20px;
+    margin: 24px 0 14px;
+  }
+  article p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #5c6e62;
+  }
+  .status {
+    font-weight: 600;
+  }
+  .status.connected {
+    color: #237447;
+  }
+  .status.unavailable {
+    color: #995525;
+  }
+  footer {
+    font-size: 12px;
+    color: #6b7b70;
+    padding: 40px 0;
+  }
+  @media (max-width: 760px) {
+    main {
+      padding: 24px;
+    }
+    .intro {
+      padding-top: 48px;
+    }
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    header {
+      align-items: flex-start;
+    }
+    .badge {
+      max-width: 145px;
+    }
+    h1 {
+      letter-spacing: -1px;
+    }
+  }
+}
